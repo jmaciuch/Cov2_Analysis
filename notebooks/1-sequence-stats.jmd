@@ -1,12 +1,83 @@
+using Plots: make_fillrange_from_ribbon
 # Coronavirus Analysis
+Working directory must be Cov2_Analysis directory
 
-Given a path to a fasta file, output mean sequence length, 
-standard devation for length, mean gc content and standard deviation for gc content as a tuple.
+## Mean and Standard Deviation
+Finding mean sequence length, standard devation for length, mean gc content and standard deviation for gc content for CoV sequences.
 
 ```julia 
 using BISC195Bioinformatics
 
-CoV_sequences = "data/CoV_sequences.fasta"
-
-mean_and_std_fasta(CoV_sequences)
+return mean_and_std_fasta("data/CoV_sequences.fasta")
 ```
+
+## Minimum and Maximum
+
+Finding length of smallest and largest sequence for CoV sequences. 
+
+```julia
+seq_lengths = sequence_lengths("data/CoV_sequences.fasta")
+
+min_length = minimum(seq_lengths)
+max_length = maximum(seq_lengths)
+
+return min_length, max_length
+```
+
+## Identifying Outliers
+
+Using histogram to spot sequence length outliers in CoV sequences. 
+
+```julia
+using Plots
+
+histogram(seq_lengths, 
+xlabel = "Sequence Length",
+ylabel = "Frequency",
+legend = false)
+```
+## Filtering sequences with more than 25k bases
+
+Modifying sequence_length function from BISC195 Bioinformatics package to output new vectors only containing sequences with >25k bases.
+(Also creates new vector with adjoining headers).
+
+I modified the sequence_length function instead of just calling it because sequence_length already pulls the header and sequence arrays from parse_fasta. 
+This way I don't have to call parse_fasta a second time to get the original vectors for a slice. 
+Included sequence lengths in tuple output for use in next step.
+
+```julia
+"""
+    morethan25k(path)
+
+Given a path to a fasta file, outputs tuple containing only sequences, headers, and sequence lengths for sequences with more than 25k bases.
+"""
+
+function morethan25k(path)
+    seq_lengths = []
+    headers = parse_fasta(path)[1]
+    sequences = parse_fasta(path)[2]
+
+    for sequence in sequences 
+        push!(seq_lengths, length(sequence))
+    end
+    
+    keep = findall(x -> x > 25000, seq_lengths)
+    
+    headers_25k = headers[keep]
+    sequences_25k = sequences[keep]
+
+    return tuple(headers_25k, sequences_25k, seq_lengths)
+end
+```
+Making a new histogram using filtered fasta file. 
+
+```julia
+seq_lengths = morethan25k("data/CoV_sequences.fasta")[3]
+
+histogram(seq_lengths, 
+xlabel = "Sequence Length",
+ylabel = "Frequency",
+legend = false)
+```
+
+
