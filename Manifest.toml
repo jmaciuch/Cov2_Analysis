@@ -20,7 +20,7 @@ version = "0.8.2"
 
 [[BISC195Bioinformatics]]
 deps = ["BioSequences"]
-path = "C:\\\\Users\\\\Jessica\\\\Documents\\\\bisc195\\\\assignment07-jmaciuch\\\\"
+path = "c:\\\\Users\\\\Jessica\\\\Documents\\\\bisc195\\\\assignment07-jmaciuch\\\\"
 uuid = "67893044-1481-44cf-8ab6-de350e09ee4e"
 version = "0.1.0"
 
