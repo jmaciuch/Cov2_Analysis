@@ -26,7 +26,7 @@ return min_length, max_length
 
 ## Identifying Outliers
 
-Using histogram to spot sequence length outliers in CoV sequences. 
+Using histogram to spot sequence length outliers in CoV sequences. Added more descriptive axis labels and removed legend.
 
 ```julia
 using Plots
@@ -51,7 +51,6 @@ Included sequence lengths in tuple output for use in next step.
 
 Given a path to a fasta file, outputs tuple containing only sequences, headers, and sequence lengths for sequences with more than 25k bases.
 """
-
 function morethan25k(path)
     seq_lengths = []
     headers = parse_fasta(path)[1]
@@ -79,5 +78,38 @@ xlabel = "Sequence Length",
 ylabel = "Frequency",
 legend = false)
 ```
+## Unique Kmers
 
+Modifying question 4 from assignment 04 to create function that takes two arguments (sequence, k) and returns all of the unique kmers of length k. 
+Set has built-in function of avoiding repeat entries, so no need to check if kmer is in kmers.
 
+Added loop to stop evaluating kmer if invalid base is encountered. 
+
+```julia 
+function  kmercount(sequence, k)
+    1 <= k <= length(sequence) || error("k must be a positive integer less than the length of the sequence") ##Throws error if k is larger than sequence length
+
+    kmers = Set() ## initialize set
+     
+    stopindex = length(sequence) - k + 1
+
+    for i in 1:stopindex
+        kmer = sequence[i:(i+k-1)]
+        kmer = uppercase(kmer) 
+        
+        keep = true 
+
+        for base in kmer       ## Changes flag to false if invalid base encountered
+            if !occursin(base, "AGCT") 
+                keep = false
+                break          ## Stop evalulating kmer once the first invalid base is encountered
+            end
+        end
+
+        if keep                 ## If flag is still true
+            push!(kmers, kmer)  ## Push kmer to set
+        end
+    end
+    return kmers
+end
+```
