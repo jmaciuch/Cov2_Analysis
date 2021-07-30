@@ -86,7 +86,24 @@ Set has built-in function of avoiding repeat entries, so no need to check if kme
 Added loop to stop evaluating kmer if invalid base is encountered. 
 
 ```julia 
-function  kmercount(sequence, k)
+"""
+    uniquekmers(sequence, k)
+
+Given a sequence and an integer k, returns all unique sequences of length k. 
+Does not recognize kmers containing invalid bases. 
+
+Example: 
+julia> seq = "ATGCGATVGTAC";
+
+julia> uniquekmers(seq, 4)
+Set{Any} with 5 elements:
+  "GTAC"
+  "TGCG"
+  "ATGC"
+  "CGAT"
+  "GCGA"
+"""
+function  uniquekmers(sequence, k)
     1 <= k <= length(sequence) || error("k must be a positive integer less than the length of the sequence") ##Throws error if k is larger than sequence length
 
     kmers = Set() ## initialize set
@@ -112,4 +129,19 @@ function  kmercount(sequence, k)
     end
     return kmers
 end
+```
+## Comparing Unique kmers
+
+Calculating distance metric between two sets of kmers. Identical sets return value of 0, sets with no overlap whatsoever return 1. 
+
+Distance metric defined as:
+1 - (length of intersection / length of union)
+OR 
+((length of set1 - set2) + (length of set2 - set1)) / length of union
+
+```julia
+intersect_length = length(intersect(set1, set2))
+union_length = length(union(set1, set2))
+
+distancemetric = 1 - (intersect_length / union_length)
 ```
