@@ -1,4 +1,3 @@
-using Plots: make_fillrange_from_ribbon
 # Coronavirus Analysis
 Working directory must be Cov2_Analysis directory
 
@@ -8,7 +7,7 @@ Finding mean sequence length, standard devation for length, mean gc content and 
 ```julia 
 using BISC195Bioinformatics
 
-return mean_and_std_fasta("data/CoV_sequences.fasta")
+mean_and_std_fasta("data/CoV_sequences.fasta")
 ```
 
 ## Minimum and Maximum
@@ -21,7 +20,7 @@ seq_lengths = sequence_lengths("data/CoV_sequences.fasta")
 min_length = minimum(seq_lengths)
 max_length = maximum(seq_lengths)
 
-return min_length, max_length
+min_length, max_length
 ```
 
 ## Identifying Outliers
@@ -32,47 +31,28 @@ Using histogram to spot sequence length outliers in CoV sequences. Added more de
 using Plots
 
 histogram(seq_lengths, 
-xlabel = "Sequence Length",
-ylabel = "Frequency",
-legend = false)
+    xlabel = "Sequence Length",
+    ylabel = "Frequency",
+    legend = false)
 ```
 ## Filtering sequences with more than 25k bases
 
 Modifying sequence_length function from BISC195 Bioinformatics package to output new vectors only containing sequences with >25k bases.
-(Also creates new vector with adjoining headers).
+(Also includes adjoining headers and sequence lengths in for use in next step). 
 
-I modified the sequence_length function instead of just calling it because sequence_length already pulls the header and sequence arrays from parse_fasta. 
+I made a new function instead of just calling the sequence_length function because sequence_length already pulls the header and sequence arrays from parse_fasta. 
 This way I don't have to call parse_fasta a second time to get the original vectors for a slice. 
-Included sequence lengths in tuple output for use in next step.
+
+Function arguments must be obtained from parse_fasta function using path to fasta file. 
+Moved function to BISC195Bioinformatics package for easier debugging. 
 
 ```julia
-"""
-    morethan25k(path)
-
-Given a path to a fasta file, outputs tuple containing only sequences, headers, and sequence lengths for sequences with more than 25k bases.
-"""
-function morethan25k(path)
-    seq_lengths = []
-    headers = parse_fasta(path)[1]
-    sequences = parse_fasta(path)[2]
-
-    for sequence in sequences 
-        push!(seq_lengths, length(sequence))
-    end
-    
-    keep = findall(x -> x > 25000, seq_lengths)
-    
-    headers_25k = headers[keep]
-    sequences_25k = sequences[keep]
-
-    return tuple(headers_25k, sequences_25k, seq_lengths)
-end
+headers, sequences = parse_fasta("data/CoV_sequences.fasta")
+seq_lengths = morethan25k(headers, sequences)[3] ## Obtain sequence lengths from morethan25k function
 ```
 Making a new histogram using filtered fasta file. 
 
 ```julia
-seq_lengths = morethan25k("data/CoV_sequences.fasta")[3]
-
 histogram(seq_lengths, 
 xlabel = "Sequence Length",
 ylabel = "Frequency",
@@ -85,50 +65,11 @@ Set has built-in function of avoiding repeat entries, so no need to check if kme
 
 Added loop to stop evaluating kmer if invalid base is encountered. 
 
+Moved function to BISC195Bioinformatics package. 
+
 ```julia 
-"""
-    uniquekmers(sequence, k)
+@doc uniquekmers
 
-Given a sequence and an integer k, returns all unique sequences of length k. 
-Does not recognize kmers containing invalid bases. 
-
-Example: 
-julia> seq = "ATGCGATVGTAC";
-
-julia> uniquekmers(seq, 4)
-Set{Any} with 5 elements:
-  "GTAC"
-  "TGCG"
-  "ATGC"
-  "CGAT"
-  "GCGA"
-"""
-function  uniquekmers(sequence, k)
-    1 <= k <= length(sequence) || error("k must be a positive integer less than the length of the sequence") ##Throws error if k is larger than sequence length
-
-    kmers = Set() ## initialize set
-     
-    stopindex = length(sequence) - k + 1
-
-    for i in 1:stopindex
-        kmer = sequence[i:(i+k-1)]
-        kmer = uppercase(kmer) 
-        
-        keep = true 
-
-        for base in kmer       ## Changes flag to false if invalid base encountered
-            if !occursin(base, "AGCT") 
-                keep = false
-                break          ## Stop evalulating kmer once the first invalid base is encountered
-            end
-        end
-
-        if keep                 ## If flag is still true
-            push!(kmers, kmer)  ## Push kmer to set
-        end
-    end
-    return kmers
-end
 ```
 ## Comparing Unique kmers
 
