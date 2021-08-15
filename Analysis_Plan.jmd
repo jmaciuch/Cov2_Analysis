@@ -1,0 +1,60 @@
+# Analysis Plan for BISC195 Final Project
+Jessica Maciuch
+
+## Analysis 1: Unique Kmer Count
+
+### Summary
+The first analysis will be finding the mean and standard deviation for unique kmer counts between SARS-CoV-2 strains. 
+This analysis could be useful to gauge the amount of genetic diversity within the samples for each variant.
+
+### Data
+Nucleotide sequences were obtained from NCBI using the following filters:
+Sequence Type: Nucleotide, Virus Lineage: SARS-Cov-2, Max Ambiguous Bases: 50, Completeness: Complete
+
+https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&VirusLineage_ss=SARS-CoV-2,%20taxid:2697049&QualNum_i=50&Completeness_s=complete
+
+### Steps
+    1. Create a function that takes a random slice of sequences containing X number of sequences from each variant 
+    represented in the dataset.
+        + parse_fasta function can be modified to return tuple containing variant names pulled from headers and the sequences. 
+        + sequences will have to be sorted into sets according to variant.
+        + randomly generate X numbers and slice at those indices. 
+    2. Create a function that counts number of unique kmers (of length k) per sequence in each variant set.
+        + uniquekmers function can be modified to look through set of sequences and return count.
+        + calculate mean and std dev for each variant set.
+        + results will be presented in a bar graph with mean unique kmer count on y-axis and variant on x axis. 
+
+### Notes
+
+For maximum utility, both functions should be able to accommodate any number of variants in the dataset. If it is too
+difficult to get the function to make as many sets as there are variants in the dataset, then I will set up the functions 
+to expect the currently known variants.
+
+## Analysis 2: Spike Protein Alignment Scores
+
+### Summary
+This analysis will show the relationship between alignments scores for the SARS-CoV-2 spike protein (surface glycoprotein)
+and the length of time between sample collections.
+
+### Data
+Amino acid sequences were obtained from NCBI using the following filters:
+Sequence Type: Protein, Virus Lineage: SARS-CoV-2, Protein Name: Surface Glycoprotein, Max Ambiguous Amino Acids: 50, 
+Completeness: Complete only, Region: North America
+
+https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Protein&VirusLineage_ss=SARS-CoV-2,%20taxid:2697049&ProtNames_ss=surface%20glycoprotein&QualNum_i=50&Completeness_s=complete&Region_s=North%20America
+
+
+### Steps
+    1. Create a function that takes a random slice from dataset (with user-defined sample size) and outputs tuple 
+    containing protein sequence and sample collection dates.
+        + parse_fasta function can be modified to pull collection dates from headers.
+    2. Create a function that calculates the length of time between sample collections for any two sequences.
+        + using Date or DateTime julia modules.
+    3. Create a function that caluclates protein global alignment score for any two sequences.
+        + make a matrix with each amino acid sequence on one axis.
+        + using BioAlignments package, BLOSUM matrix for protein alignment scores.
+    4. Create function that plots alignment score vs. length of time between collection dates.
+        + using scatter plot from Plots.jl.
+        + runs functions from *step 2* and *step 3* on each sequence pair from sliced dataset, outputs tuple 
+        (length (days), alignment score) for each pair.
+
