@@ -1,0 +1,42 @@
+# Analysis 1: Unique Kmers Amoung SARS-CoV-2 variants
+
+## Splicing Data Set
+Since there are many aliases for PANGO lineages, and the lists for which PANGOlins belong to which variants don't follow a predictable 
+pattern, I couldn't have my splice function automatically make different arrays for each variant present. So to preserve reusability 
+for this function, I instead wrote it to take an array of variants as an argument. This way, anyone using this function can change the amount of variants 
+and individual PANGOlins within each variant as needed. All variant arrays should be defined before calling ~~~function~~~
+
+The following variant PANGO lineages are sourced from the CDC's list of Variants of Concern as of 8/6/21:
+https://www.cdc.gov/coronavirus/2019-ncov/variants/variant-info.html#Concern
+
+
+```julia 
+using BISC195Bioinformatics
+
+data_path = "data/Analysis1_test.fasta"
+
+variants = dict("Alpha"=>["B.1.1.7"],
+                "Beta"=>["B.1.351," "B.1.351.2", "B.1.351.3"],
+                "Gamma"=>["P.1", "P.1.1", "P.1.2"],
+                "Delta" =>["B.1.617.2", "AY.1", "AY.2", "AY.3"]
+            )
+
+function splice_fasta(path, variants, k)
+    headers, sequences = parse_fasta(path)
+
+    pangolins = []
+    
+    for line in headers
+        split_line = split(line, "|")
+        push!(pangolins, split_line[2])
+    end
+
+    i = 1
+    
+    for line in pangolins
+
+    
+    print(pangolins)
+
+end
+```
