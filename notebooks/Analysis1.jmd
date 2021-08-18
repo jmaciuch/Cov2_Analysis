@@ -1,42 +1,44 @@
 # Analysis 1: Unique Kmers Amoung SARS-CoV-2 variants
 
 ## Splicing Data Set
-Since there are many aliases for PANGO lineages, and the lists for which PANGOlins belong to which variants don't follow a predictable 
-pattern, I couldn't have my splice function automatically make different arrays for each variant present. So to preserve reusability 
-for this function, I instead wrote it to take an array of variants as an argument. This way, anyone using this function can change the amount of variants 
-and individual PANGOlins within each variant as needed. All variant arrays should be defined before calling ~~~function~~~
 
-The following variant PANGO lineages are sourced from the CDC's list of Variants of Concern as of 8/6/21:
+I wrote the function splice_fasta, which takes a fasta file and returns an array of tuples of the form ("Variant Name", "Sequence").
+The array contains k number of sequences from each variant listed in the variant_dict. 
+variant_dict must be defined before calling splice_fasta.
+
+Since there are many aliases for PANGO lineages, and the lists for which PANGOlins belong to which variants don't follow a predictable 
+pattern, I couldn't have my splice function automatically make different arrays for each variant present. To preserve reusability 
+for this function, I instead wrote it to take an dictionary of variants as an argument. This way, anyone using this function can 
+define which variants and PANGO lineages they want to analyze. 
+
+The following PANGO lineages and variant assignments are sourced from the CDC's "Variants of Concern" list as of 8/16/21:
 https://www.cdc.gov/coronavirus/2019-ncov/variants/variant-info.html#Concern
 
 
 ```julia 
 using BISC195Bioinformatics
 
-data_path = "data/Analysis1_test.fasta"
+variant_dict = Dict("Alpha" => "Alpha",
+                "B.1.1.7" => "Alpha",
+                "Beta" => "Beta",
+                "B.1.351" => "Beta",
+                "B.1.351.2" => "Beta",
+                "B.1.351.3" => "Beta",
+                "Gamma" => "Gamma",
+                "P.1" => "Gamma",
+                "P.1.1" => "Gamma",
+                "P.1.2" => "Gamma",
+                "Delta" => "Delta",
+                "B.1.617.2" => "Delta",
+                "AY.1" => "Delta",
+                "AY.2" => "Delta",
+                "AY.3" => "Delta",
+                "AY.3.1" => "Delta")
+                                
+path = "data/......"
 
-variants = dict("Alpha"=>["B.1.1.7"],
-                "Beta"=>["B.1.351," "B.1.351.2", "B.1.351.3"],
-                "Gamma"=>["P.1", "P.1.1", "P.1.2"],
-                "Delta" =>["B.1.617.2", "AY.1", "AY.2", "AY.3"]
-            )
-
-function splice_fasta(path, variants, k)
-    headers, sequences = parse_fasta(path)
-
-    pangolins = []
-    
-    for line in headers
-        split_line = split(line, "|")
-        push!(pangolins, split_line[2])
-    end
-
-    i = 1
-    
-    for line in pangolins
-
-    
-    print(pangolins)
-
-end
+splice_fasta(path, variant_dict, 25)
 ```
+
+## Calculating Unique Kmers
+
