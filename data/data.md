@@ -12,12 +12,16 @@ Download from NCBI page wouldn't go through for some reason, even with adblocker
 # Data File for Analysis 1
 
 ## Search Parameters
-https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&VirusLineage_ss=SARS-CoV-2,%20taxid:2697049&QualNum_i=50&Completeness_s=complete&Region_s=Africa&Region_s=Asia&Region_s=Europe&Region_s=South%20America
+https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/virus?SeqType_s=Nucleotide&VirusLineage_ss=SARS-CoV-2,%20taxid:2697049&Region_s=Africa&Region_s=Asia&Region_s=Oceania&Region_s=South%20America&Completeness_s=complete&Lineage_s=B.1.1.7&Lineage_s=B.1.351&Lineage_s=B.1.351.3&Lineage_s=P.1&Lineage_s=P.2&Lineage_s=B.1.617.2&Lineage_s=R.1&Lineage_s=B.1.1.214
 
 ## Commentary
 Search done on 8/18/21
 
 Includes only sequences for SARS-Cov-2
-Search Filters: only complete sequences, maximum 50 unknown bases, from Africa, South America, Asia, and Europe
+Search Filters: only complete sequences, maximum 50 unknown bases, 
+GeoLocation: Africa, South America, Asia, and Oceania,
+Pangolins: B.1.1.7, B.1.351, B.1.351.3, P.1, P.2, B.1.617.2, R.1, B.1.1.214
 
-Search filters described in Analysis plan yielded a file size that was way too large. Removed sequences from North America for more manageable file size. 
+Search filters described in Analysis plan yielded a file size that was way too large. Removed sequences from North America and Europe, and specificed pangolins for more manageable file size. 
+
+Pangolin filter includes 2 not listed in variant_dict to test splice_fasta's ability to discriminate pangolins.
