@@ -2,14 +2,14 @@
 
 ## Splicing Data Set
 
-I wrote the function splice_fasta, which takes a fasta file and returns an array of tuples of the form ("Variant Name", "Sequence").
-The array contains k number of sequences from each variant listed in the variant_dict. 
+I wrote the function splice_fasta to take a fasta file and return an array of tuples of the form ("Variant Name", "Sequence").
+The array contains k number of sequences from each variant in the data set (that is recognized in the variant dictionary). 
 variant_dict must be defined before calling splice_fasta.
 
 Since there are many aliases for PANGO lineages, and the lists for which PANGOlins belong to which variants don't follow a predictable 
-pattern, I couldn't have my splice function automatically make different arrays for each variant present. To preserve reusability 
-for this function, I instead wrote it to take an dictionary of variants as an argument. This way, anyone using this function can 
-define which variants and PANGO lineages they want to analyze. 
+pattern, I couldn't have my splice function automatically make different arrays for each variant present. 
+To preserve reusability for this function, I instead wrote it to take an dictionary of variants as an argument. This way, anyone 
+using this function can define which variants and PANGO lineages they want to analyze. 
 
 The following PANGO lineages and variant assignments are sourced from the CDC's "Variants of Concern" list as of 8/16/21:
 https://www.cdc.gov/coronavirus/2019-ncov/variants/variant-info.html#Concern
@@ -35,10 +35,51 @@ variant_dict = Dict("Alpha" => "Alpha",
                 "AY.3" => "Delta",
                 "AY.3.1" => "Delta")
                                 
-path = "data/......"
+path = "data/Analysis1.fasta"
 
-splice_fasta(path, variant_dict, 25)
+var_seq = splice_fasta_var(path, variant_dict, 25);
 ```
-
 ## Calculating Unique Kmers
+
+This function calculates the unique kmers for each sequence, then calculates mean and std of unique kmer counts for each 
+specific category present in the dataset.
+
+Kmer length (9) was chosen based on the recommendations from the following published thesis:
+
+Strategies for Identifying the Optimal Length of K-mer in a Viral Phylogenomic Analysis using Genomic Alignment-free Method 
+https://trace.tennessee.edu/cgi/viewcontent.cgi?referer=https://www.google.com/&httpsredir=1&article=5552&context=utk_gradthes
+
+I wrote the function so that it could be used for any "category", not just variants. Input array just needs 
+to contain tuples of the form (Category, Sequence). 
+
+Function returns array of tuples of the form ("category name", mean, std dev).
+
+```julia
+unique_kmer_count = uniquekmer_mean_and_std(var_seq, 9);
+
+kmer_names = [t[1] for t in unique_kmer_count]
+kmer_means = [t[2] for t in unique_kmer_count]
+kmer_std = [t[3] for t in unique_kmer_count] 
+```
+## Plotting results
+
+Mean and standard deviation for unique kmers/sequence are plotted in a bar graph, with each bar representing one variant in the 
+dataset. 
+
+The axis labels for the bar plot are there, but are cut off by the plots window for some reason.
+
+```julia
+using Plots
+
+bar(kmer_names, 
+    kmer_means, 
+    yerr = kmer_std, 
+    xlabel = "Variant", 
+    ylabel = "Mean Unique Kmer Count", 
+    legend = false, 
+    markerstrokecolor = :black, 
+    markercolor = :black)
+```
+    
+
 
