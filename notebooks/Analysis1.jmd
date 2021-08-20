@@ -1,10 +1,10 @@
 # Analysis 1: Unique Kmers Amoung SARS-CoV-2 variants
 
-## Splicing Data Set
+## Slicing Data Set
 
-I wrote the function splice_fasta to take a fasta file and return an array of tuples of the form ("Variant Name", "Sequence").
+I wrote the function slice_fasta_var to take a fasta file and return an array of tuples of the form ("Variant Name", "Sequence").
 The array contains k number of sequences from each variant in the data set (that is recognized in the variant dictionary). 
-variant_dict must be defined before calling splice_fasta.
+variant_dict must be defined before calling slice_fasta_var.
 
 Since there are many aliases for PANGO lineages, and the lists for which PANGOlins belong to which variants don't follow a predictable 
 pattern, I couldn't have my splice function automatically make different arrays for each variant present. 
@@ -37,7 +37,7 @@ variant_dict = Dict("Alpha" => "Alpha",
                                 
 path = "data/Analysis1.fasta"
 
-var_seq = splice_fasta_var(path, variant_dict, 25);
+var_seq = slice_fasta_var(path, variant_dict, 25);
 ```
 ## Calculating Unique Kmers
 
