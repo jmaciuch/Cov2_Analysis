@@ -2,13 +2,13 @@
 
 ## Slicing Data Set
 I wrote a modified version of my slice_fasta_var function from Analysis 1. Slice_fasta_date randomly chooses k number of 
-indices from the dataset and returns an array of tuples of the form (Collection date, sequence).
+indices from the dataset and returns a tuple containing an array of collection dates and an array of sequences. 
 
 ```julia
 using BISC195Bioinformatics
 
-path = "data/Analysis2.fasta"
-date_seq = slice_fasta_date(path, 30)
+path = "data/Analysis2_test.fasta"
+date_seq = slice_fasta_date(path, 10)
 ```
 ## Calculating length of time between collection dates
 For this section, I wrote two functions: format_date and date_diff. 
@@ -26,6 +26,40 @@ date2 = "2020-01-02"
 
 date_diff(date1, date2)
 ```
-## Calculating protein alignment scores
+## Calculating Protein Alignment Score & Collection Time Difference
+I wrote the function time_vs_align_score to produce data points for a plot showing length of time between sample collection date and 
+protein alignment scores. 
+The first array in the output represents all collection times (x values in plot), and the second array represents all alignment scores
+(y value in plot) 
+Since I wrote this function to call slice_fasta_date, it uses the same arguments.
+
+The for-loops traversing both matrices only look at i < j because I wanted only one data point representing the time difference & 
+aligment score for each sequence pair in the fasta file. 
+Filling in values for i == j and j < i was ultimately unecessary. 
+
 ```julia
-using BioAlignments
+time_score = time_vs_align_score(path, 10)
+
+```
+## Plotting Results
+Since the output from my time_vs_align_score function represents a set of coordinate points, I decided to display my results in the 
+form of a scatter plot. 
+
+Candlestick plot was suggested in Analysis Pla commentary, but I couldn't figure out how to call it as a function using Plots.jl. 
+
+```julia
+using Plots
+
+x = time_score[1]
+y = time_score[2]
+
+scatter(x, 
+        y,
+        xlim = ((minimum(x) - 100), (maximum(x) + 100)),
+        ylim = ((minimum(y) - 100), (maximum(y) + 100)),
+        xlabel = "Length between Collections (Days)", 
+        ylabel = "Protein Alignment Score",
+        legend = false
+        )
+```
+
