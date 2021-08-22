@@ -1,0 +1,31 @@
+# Analysis 2: Surface Glycoprotein Alignment Scores vs. Time
+
+## Slicing Data Set
+I wrote a modified version of my slice_fasta_var function from Analysis 1. Slice_fasta_date randomly chooses k number of 
+indices from the dataset and returns an array of tuples of the form (Collection date, sequence).
+
+```julia
+using BISC195Bioinformatics
+
+path = "data/Analysis2.fasta"
+date_seq = slice_fasta_date(path, 30)
+```
+## Calculating length of time between collection dates
+For this section, I wrote two functions: format_date and date_diff. 
+
+format_date takes dates of the form "YYYY-MM-DD" and converts them into the correct form for date operations i.e. Date(YYYY-MM-DD).
+date_diff calculates the length of time in between two given dates. 
+
+format_date is called inside the date_diff function. 
+date_diff will be called in the next function to provide the first data point (difference between collection dates) for the 
+final analysis. 
+
+```julia
+date1 = "2020-01-10"
+date2 = "2020-01-02"
+
+date_diff(date1, date2)
+```
+## Calculating protein alignment scores
+```julia
+using BioAlignments
