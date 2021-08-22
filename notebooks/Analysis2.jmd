@@ -42,8 +42,8 @@ time_score = time_vs_align_score(path, 10)
 
 ```
 ## Plotting Results
-Since the output from my time_vs_align_score function represents a set of coordinate points, I decided to display my results in the 
-form of a scatter plot. 
+Since I wanted to see if protein alignment scores correlated at all with the time between sample collections, I decided to 
+display my data as a scatter plot. 
 
 Candlestick plot was suggested in Analysis Pla commentary, but I couldn't figure out how to call it as a function using Plots.jl. 
 
@@ -62,4 +62,6 @@ scatter(x,
         legend = false
         )
 ```
-
+As you can see, there does not appear to be a clear trend between time of sample collection and protein alignment scores in this dataset.
+This might be due to the limitations of taking data only from one US state, which might limit the amount of variation present within 
+the data. 
