@@ -20,6 +20,9 @@ format_date is called inside the date_diff function.
 date_diff will be called in the next function to provide the first data point (difference between collection dates) for the 
 final analysis. 
 
+I had some trouble using date_diff in my next function since matrices don't accept Date types.
+I ended up using the function Dates.value to convert the result of subtracting the dates into a Float64.
+
 ```julia
 date1 = "2020-01-10"
 date2 = "2020-01-02"
