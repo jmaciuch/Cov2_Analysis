@@ -1,8 +1,9 @@
 # Analysis 2: Surface Glycoprotein Alignment Scores vs. Time
 
 ## Slicing Data Set
-I wrote a modified version of my slice_fasta_var function from Analysis 1. Slice_fasta_date randomly chooses k number of 
-indices from the dataset and returns a tuple containing an array of collection dates and an array of sequences. 
+
+I wrote a modified version of my `slice_fasta_var` function from Analysis 1.
+`slice_fasta_date` randomly chooses k number of indices from the dataset and returns a tuple containing an array of collection dates and an array of sequences.
 
 ```julia
 using BISC195Bioinformatics
@@ -10,15 +11,16 @@ using BISC195Bioinformatics
 path = "data/Analysis2.fasta"
 date_seq = slice_fasta_date(path, 10);
 ```
+
 ## Calculating length of time between collection dates
-For this section, I wrote two functions: format_date and date_diff. 
+
+For this section, I wrote two functions: format_date and date_diff.
 
 format_date takes dates of the form "YYYY-MM-DD" and converts them into the correct form for date operations i.e. Date(YYYY-MM-DD).
-date_diff calculates the length of time in between two given dates. 
+date_diff calculates the length of time in between two given dates.
 
-format_date is called inside the date_diff function. 
-date_diff will be called in the next function to provide the first data point (difference between collection dates) for the 
-final analysis. 
+format_date is called inside the date_diff function.
+date_diff will be called in the next function to provide the first data point (difference between collection dates) for the final analysis.
 
 I had some trouble using date_diff in my next function since matrices don't accept Date types.
 I ended up using the function Dates.value to convert the result of subtracting the dates into an Int64.

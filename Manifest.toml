@@ -43,8 +43,8 @@ uuid = "13072b0f-2c55-5437-9ae7-d433b7a33950"
 version = "1.0.0"
 
 [[BISC195Bioinformatics]]
-deps = ["BioSequences", "Statistics"]
-path = "c:\\\\Users\\\\Jessica\\\\Documents\\\\bisc195\\\\assignment07-jmaciuch\\\\"
+deps = ["BioAlignments", "BioSequences", "Dates", "Statistics"]
+path = "../BISC195Bioinformatics.jl"
 uuid = "67893044-1481-44cf-8ab6-de350e09ee4e"
 version = "0.1.0"
 
