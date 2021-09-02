@@ -2,9 +2,9 @@
 
 ## Slicing Data Set
 
-I wrote the function slice_fasta_var to take a fasta file and return an array of tuples of the form ("Variant Name", "Sequence").
-The array contains k number of sequences from each variant in the data set (that is recognized in the variant dictionary). 
-variant_dict must be defined before calling slice_fasta_var.
+I wrote the function `slice_fasta_var` to take a fasta file and return an array of tuples of the form ("Variant Name", "Sequence").
+The array contains `k` number of sequences from each variant in the data set (that is recognized in the variant dictionary). 
+`variant_dict` must be defined before calling `slice_fasta_var`.
 
 Since there are many aliases for PANGO lineages, and the lists for which PANGOlins belong to which variants don't follow a predictable 
 pattern, I couldn't have my splice function automatically make different arrays for each variant present. 
@@ -38,6 +38,10 @@ variant_dict = Dict("Alpha" => "Alpha",
 path = "data/Analysis1.fasta"
 
 var_seq = slice_fasta_var(path, variant_dict, 25);
+
+# For me, at first, this gave me a vector of length zero.
+# I inferred from the function that you needed the `pangolin` feature to be in the second position
+# of the header, so you really need to specify that in your `data.md`.
 ```
 ## Calculating Unique Kmers
 
@@ -67,6 +71,7 @@ Mean and standard deviation for unique kmers/sequence are plotted in a bar graph
 dataset. Y-axis limits added to account for scale of mean values. 
 
 The axis labels for the bar plot are there, but are cut off by the plots window for some reason.
+<!-- yeah, that's bizarre. I think you can change `resolution` or something, but wouldn't worry about it -->
 
 ```julia
 using Plots
