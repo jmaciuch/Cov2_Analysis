@@ -51,6 +51,12 @@ version = "0.1.0"
 [[Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
+[[BioAlignments]]
+deps = ["BioGenerics", "BioSequences", "BioSymbols", "IntervalTrees", "LinearAlgebra"]
+git-tree-sha1 = "f610a3a965f187890edb0b1fdef4f30d77852edd"
+uuid = "00701ae9-d1dc-5365-b64a-a3a3ebf5695e"
+version = "2.0.0"
+
 [[BioGenerics]]
 deps = ["TranscodingStreams"]
 git-tree-sha1 = "6d3f3b474b3df2e83dc67ad12ec63aee4eb5241b"
@@ -363,6 +369,12 @@ deps = ["AxisAlgorithms", "ChainRulesCore", "LinearAlgebra", "OffsetArrays", "Ra
 git-tree-sha1 = "61aa005707ea2cebf47c8d780da8dc9bc4e0c512"
 uuid = "a98d9a8b-a2ab-59e6-89dd-64a1c18fca59"
 version = "0.13.4"
+
+[[IntervalTrees]]
+deps = ["InteractiveUtils", "Profile", "Random", "Test"]
+git-tree-sha1 = "6c9fcd87677231ae293f6806fad928c216ab6658"
+uuid = "524e6230-43b7-53ae-be76-1e9e4d08d11b"
+version = "1.0.0"
 
 [[InvertedIndices]]
 deps = ["Test"]
@@ -681,6 +693,10 @@ version = "1.1.0"
 [[Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+
+[[Profile]]
+deps = ["Printf"]
+uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
 
 [[QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
