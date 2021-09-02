@@ -7,8 +7,8 @@ indices from the dataset and returns a tuple containing an array of collection d
 ```julia
 using BISC195Bioinformatics
 
-path = "data/Analysis2_test.fasta"
-date_seq = slice_fasta_date(path, 10)
+path = "data/Analysis2.fasta"
+date_seq = slice_fasta_date(path, 10);
 ```
 ## Calculating length of time between collection dates
 For this section, I wrote two functions: format_date and date_diff. 
@@ -21,8 +21,9 @@ date_diff will be called in the next function to provide the first data point (d
 final analysis. 
 
 I had some trouble using date_diff in my next function since matrices don't accept Date types.
-I ended up using the function Dates.value to convert the result of subtracting the dates into a Float64.
+I ended up using the function Dates.value to convert the result of subtracting the dates into an Int64.
 
+The following is just a demonstration of the function:
 ```julia
 date1 = "2020-01-10"
 date2 = "2020-01-02"
@@ -48,7 +49,14 @@ time_score = time_vs_align_score(path, 10)
 Since I wanted to see if protein alignment scores correlated at all with the time between sample collections, I decided to 
 display my data as a scatter plot. 
 
-Candlestick plot was suggested in Analysis Pla commentary, but I couldn't figure out how to call it as a function using Plots.jl. 
+Candlestick plot was suggested by Kevin in Analysis Plan commentary, but I couldn't figure out how to call it as a function 
+using Plots.jl. 
+
+Since the difference between the highest and lowest y values was ~200 points, I set the y-axis limits to be 100 above and 
+below the highest and lowest scores, respectively. 
+
+The difference between the highest and lowest x values was 55, so I set the x-axis limits to +/- 50 for the highest and lowest 
+date differences. 
 
 ```julia
 using Plots
@@ -58,7 +66,7 @@ y = time_score[2]
 
 scatter(x, 
         y,
-        xlim = ((minimum(x) - 100), (maximum(x) + 100)),
+        xlim = ((minimum(x) - 50), (maximum(x) + 50)),
         ylim = ((minimum(y) - 100), (maximum(y) + 100)),
         xlabel = "Length between Collections (Days)", 
         ylabel = "Protein Alignment Score",
@@ -67,4 +75,4 @@ scatter(x,
 ```
 As you can see, there does not appear to be a clear trend between time of sample collection and protein alignment scores in this dataset.
 This might be due to the limitations of taking data only from one US state, which might limit the amount of variation present within 
-the data. 
+the protein sequences. 
