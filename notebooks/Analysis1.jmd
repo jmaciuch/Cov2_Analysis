@@ -81,4 +81,8 @@ bar(kmer_names,
     markerstrokecolor = :black, 
     markercolor = :black)
 ```
+As you can see, in this data set, delta variant sequences show the lowest mean unique kmer count, 
+but also have the highest standard deviation. Alpha sequences show the highest mean unique kmers.
+This analysis shows that unique kmer count might be indicative of sequence variation between 
+Covid-19 variants.
 
