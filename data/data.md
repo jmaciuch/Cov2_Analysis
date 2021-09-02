@@ -39,3 +39,6 @@ sequence type: protein, only complete sequences, maximum 50 unknown amino acids,
 GeoLocation: Illinois, U.S.
 
 Geolocation was limited to samples from Illinois to reduce file size. 
+
+Date must be set as the third line item in FASTA headers for date_diff and time_vs_align_score functions. 
+Example header: >QWF05856.1 |R.1|2021-04-25|Severe acute respiratory syndrome-related coronavirus
