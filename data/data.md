@@ -29,9 +29,13 @@ Search Filters:
 
 Search filters described in Analysis plan yielded a file size that was way too large. Removed sequences from North America and Europe, and specified pangolins for more manageable file size. 
 
-Pangolin filters include 2 not listed in variant_dict to test `splice_fasta`'s ability to discriminate pangolins.
+Pangolin filters include 2 not listed in variant_dict to test `slice_fasta`'s ability to discriminate pangolins.
 
-<!-- you don't mention here what you include in the header, what type of fasta you download (eg nucleotide, protein, etc, nor that you save it as `Analysis1.fasta`) -->
+Pangolin must be set as the second line item in FASTA headers for `slice_fasta_var`. 
+Example header: >MZ314688.1 |B.1.1.7|India|2021-03-20
+
+Data set saved as data/Analysis1.fasta
+
 # Data file for Analysis 2
 
 ## Search Parameters
@@ -51,3 +55,5 @@ Geolocation was limited to samples from Illinois to reduce file size.
 
 Date must be set as the third line item in FASTA headers for date_diff and time_vs_align_score functions. 
 Example header: >QWF05856.1 |R.1|2021-04-25|Severe acute respiratory syndrome-related coronavirus
+
+Data set was saved as data/Analysis2.fasta
